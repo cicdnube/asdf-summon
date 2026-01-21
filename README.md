@@ -2,10 +2,19 @@
 
 An [asdf](https://asdf-vm.com/) plugin to install the CyberArk Summon runtime.
 
-This plugin installs the following binaries:
-- `summon` (CyberArk Summon)
-- `summon-conjur` (Summon provider for Conjur)
-- `conjur` (CyberArk Conjur CLI, required for authentication)
+This plugin installs the required binaries to run Summon with Conjur support in a reproducible and CI-friendly way.
+
+---
+
+## What this plugin installs
+
+This plugin installs the following **runtime binaries**:
+
+- `summon` – CyberArk Summon
+- `summon-conjur` – Summon provider for Conjur
+- `conjur` – CyberArk Conjur CLI (required for authentication)
+
+All binaries are installed in the correct locations expected by the Summon runtime.
 
 ---
 
@@ -31,6 +40,21 @@ It does **not** install or manage any configuration or credentials, such as:
 - authentication scripts or login helpers
 
 These elements must be provided and managed externally by the user or the execution environment.
+
+---
+
+## Runtime requirements (mandatory)
+
+For `summon + summon-conjur` to work correctly, the execution environment **must provide all of the following**:
+
+1. A valid `~/.conjurrc`
+2. A valid Conjur server certificate (`~/.conjur-server.pem`)
+3. Valid authentication credentials (typically via `~/.netrc`)
+4. A Conjur client that has been initialized and authenticated (`conjur init` and login)
+
+> Installing the binaries alone is **not sufficient**.
+
+In automated environments (e.g. Jenkins, GitLab CI), these files must be provisioned explicitly, for example via credential injection.
 
 ---
 
